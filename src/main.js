@@ -1,35 +1,55 @@
 import "./style.css";
 
 const input = document.querySelector("#todo-input");
-const addBtn = document.querySelector("#add");
+//const addBtn = document.querySelector("#add");
 const todoList = document.querySelector("#todo-list");
 const dateElement = document.querySelector("#date");
 const countElement = document.querySelector(".count");
 const todoForm = document.querySelector("form");
 
 const now = new Date();
-const year = now.getFullYear();
-const month = now.getMonth() + 1;
-const date = now.getDate();
 
-const formattedDate = `${year}년 ${month}월 ${date}일`;
-dateElement.textContent = formattedDate;
+const updateDisplay = () => {
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1;
+  const date = now.getDate();
 
-const dayIndex = now.getDay();
-const shiftIndex = (dayIndex + 6) % 7;
+  const formattedDate = `${year}년 ${month}월 ${date}일`;
+  dateElement.textContent = formattedDate;
 
-const rainbowColors = [
-  "#FFADAD",
-  "#FFD6A5",
-  "#FDFFB6",
-  "#CAFFBF",
-  "#9BF6FF",
-  "#A0C4FF",
-  "#BDB2FF",
-];
+  const dayIndex = now.getDay();
+  const shiftIndex = (dayIndex + 6) % 7;
 
-const todayColor = rainbowColors[shiftIndex];
-document.body.style.backgroundColor = todayColor;
+  const rainbowColors = [
+    "#f9d6d6",
+    "#FFD6A5",
+    "#f8f9ca",
+    "#e7ffe2",
+    "#c7f4f8",
+    "#A0C4FF",
+    "#d1cafd",
+  ];
+
+  const todayColor = rainbowColors[shiftIndex];
+  document.body.style.backgroundColor = todayColor;
+
+  const prev = document.querySelector("#prev");
+  const next = document.querySelector("#next");
+  prev.style.backgroundColor = todayColor;
+  next.style.backgroundColor = todayColor;
+};
+
+document.querySelector("#prev").addEventListener("click", () => {
+  now.setDate(now.getDate() - 1);
+  updateDisplay();
+});
+
+document.querySelector("#next").addEventListener("click", () => {
+  now.setDate(now.getDate() + 1);
+  updateDisplay();
+});
+
+updateDisplay();
 
 const saveTodos = () => {
   const todos = [];

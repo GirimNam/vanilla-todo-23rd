@@ -111,3 +111,17 @@ body {
     "Malgun Gothic",
     sans-serif;
 }
+
+.date-btns {
+  display: flex;
+  flex-direction: row;
+  gap: 15px;
+}
+
+#prev {
+  border: none;
+}
+
+#next {
+  border: none;
+}
