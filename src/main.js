@@ -5,6 +5,8 @@ const todoList = document.querySelector("#todo-list");
 const dateElement = document.querySelector("#date");
 const countElement = document.querySelector(".count");
 const todoForm = document.querySelector("form");
+const prev = document.querySelector("#prev");
+const next = document.querySelector("#next");
 const RAINBOW_COLORS = [
   "#f9d6d6",
   "#FFD6A5",
@@ -15,36 +17,28 @@ const RAINBOW_COLORS = [
   "#d1cafd",
 ];
 
-const now = new Date();
+let currentDate = Temporal.Now.plainDateISO("Asia/Seoul");
 
 const updateDisplay = () => {
-  const year = now.getFullYear();
-  const month = now.getMonth() + 1;
-  const date = now.getDate();
-
-  const formattedDate = `${year}년 ${month}월 ${date}일`;
+  const formattedDate = `${currentDate.year}년 ${currentDate.month}월 ${currentDate.date}일`;
   dateElement.textContent = formattedDate;
 
-  const dayIndex = now.getDay();
+  const dayIndex = currentDate.day;
   const shiftIndex = (dayIndex + 6) % 7;
 
   const todayColor = RAINBOW_COLORS[shiftIndex];
   document.body.style.backgroundColor = todayColor;
 
-  const prev = document.querySelector("#prev");
-  const next = document.querySelector("#next");
   prev.style.backgroundColor = todayColor;
   next.style.backgroundColor = todayColor;
 };
 
-document.querySelector("#prev").addEventListener("click", () => {
-  now.setDate(now.getDate() - 1);
-  updateDisplay();
+prev.addEventListener("click", () => {
+  ((currentDate = currentDate.substract({ days: 1 })), updateDisplay());
 });
 
-document.querySelector("#next").addEventListener("click", () => {
-  now.setDate(now.getDate() + 1);
-  updateDisplay();
+next.addEventListener("click", () => {
+  ((currentDate = currentDate.add({ days: 1 })), updateDisplay());
 });
 
 updateDisplay();
