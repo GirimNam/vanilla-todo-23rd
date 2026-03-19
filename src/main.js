@@ -34,14 +34,20 @@ const updateDisplay = () => {
 };
 
 prev.addEventListener("click", () => {
-  ((currentDate = currentDate.substract({ days: 1 })), updateDisplay());
+  ((currentDate = currentDate.subtract({ days: 1 })),
+    updateDisplay(),
+    loadTodos());
 });
 
 next.addEventListener("click", () => {
-  ((currentDate = currentDate.add({ days: 1 })), updateDisplay());
+  ((currentDate = currentDate.add({ days: 1 })), updateDisplay(), loadTodos());
 });
 
 updateDisplay();
+
+const getStorageKey = () => {
+  return currentDate.toString();
+};
 
 const saveTodos = () => {
   const todos = [];
@@ -51,11 +57,11 @@ const saveTodos = () => {
       done: li.querySelector(".check").checked,
     });
   });
-  localStorage.setItem("myTodoList", JSON.stringify(todos));
+  localStorage.setItem(getStorageKey(), JSON.stringify(todos));
 };
 
 const loadTodos = () => {
-  const savedTodos = JSON.parse(localStorage.getItem("myTodoList")) || [];
+  const savedTodos = JSON.parse(localStorage.getItem(getStorageKey())) || [];
   savedTodos.forEach((todo) => {
     createTodoItem(todo.text, todo.done);
   });
