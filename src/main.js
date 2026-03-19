@@ -1,11 +1,19 @@
 import "./style.css";
 
 const input = document.querySelector("#todo-input");
-//const addBtn = document.querySelector("#add");
 const todoList = document.querySelector("#todo-list");
 const dateElement = document.querySelector("#date");
 const countElement = document.querySelector(".count");
 const todoForm = document.querySelector("form");
+const RAINBOW_COLORS = [
+  "#f9d6d6",
+  "#FFD6A5",
+  "#f8f9ca",
+  "#e7ffe2",
+  "#c7f4f8",
+  "#A0C4FF",
+  "#d1cafd",
+];
 
 const now = new Date();
 
@@ -20,17 +28,7 @@ const updateDisplay = () => {
   const dayIndex = now.getDay();
   const shiftIndex = (dayIndex + 6) % 7;
 
-  const rainbowColors = [
-    "#f9d6d6",
-    "#FFD6A5",
-    "#f8f9ca",
-    "#e7ffe2",
-    "#c7f4f8",
-    "#A0C4FF",
-    "#d1cafd",
-  ];
-
-  const todayColor = rainbowColors[shiftIndex];
+  const todayColor = RAINBOW_COLORS[shiftIndex];
   document.body.style.backgroundColor = todayColor;
 
   const prev = document.querySelector("#prev");
