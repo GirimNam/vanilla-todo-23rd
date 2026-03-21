@@ -20,10 +20,10 @@ const RAINBOW_COLORS = [
 let currentDate = Temporal.Now.plainDateISO("Asia/Seoul");
 
 const updateDisplay = () => {
-  const formattedDate = `${currentDate.year}년 ${currentDate.month}월 ${currentDate.date}일`;
+  const formattedDate = `${currentDate.year}년 ${currentDate.month}월 ${currentDate.day}일`;
   dateElement.textContent = formattedDate;
 
-  const dayIndex = currentDate.day;
+  const dayIndex = currentDate.dayOfWeek;
   const shiftIndex = (dayIndex + 6) % 7;
 
   const todayColor = RAINBOW_COLORS[shiftIndex];
@@ -74,13 +74,20 @@ const updateCount = () => {
 
 const createTodoItem = (value, isDone = false) => {
   const li = document.createElement("li");
-  li.innerHTML = `
-    <div class="output">
-      <input class="check" type="checkbox" ${isDone ? "checked" : ""} />
-      <span style="${isDone ? "text-decoration: line-through; color: gray;" : ""}">${value}</span>
-      <button class="delete"> - </button>
-    </div>
-  `;
+  const wrapper = document.createElement("div");
+  wrapper.className = "output";
+
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.className = "check";
+  checkbox.checked = isDone;
+
+  const span = document.createElement("span");
+  span.textContent = value;
+
+  if (isDone) {
+    span.classList.add("done");
+  }
 
   li.querySelector(".delete").onclick = () => {
     li.remove();
@@ -91,11 +98,9 @@ const createTodoItem = (value, isDone = false) => {
   li.querySelector(".check").onchange = (e) => {
     const span = li.querySelector("span");
     if (e.target.checked) {
-      span.style.textDecoration = "line-through";
-      span.style.color = "gray";
+      span.classList.add("done");
     } else {
-      span.style.textDecoration = "none";
-      span.style.color = "black";
+      span.classList.remove("done");
     }
     updateCount();
     saveTodos();
